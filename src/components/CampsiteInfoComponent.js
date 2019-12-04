@@ -22,18 +22,19 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
             return (
                 <div className="col-md-5 m-1">
                     <h4>Comments</h4>
-                    {comments.map(comments => <div className="p-1" key={comments.id}> 
-                    {comments.text}<br />
-                    -- {comments.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments.date)))}</div>)}
-                </div>
-            );
-        } else {
-            return (
-                <div>
-
+                    {comments.map(comment => {
+                        return (
+                            <div key={comment.id}> 
+                                <p>{comment.text}<br />
+                                -- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+                                </p>
+                            </div>
+                        );
+                    })}
                 </div>
             );
         }
+        return <div />;   
     }
 
     function CampsiteInfo (props) {
@@ -42,7 +43,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
                 <div className = "container">
                     <div className="row">
                         <RenderCampsite campsite={props.campsite} />
-                        <RenderComments comments={props.campsite.comments} />
+                        <RenderComments comments={props.comments} />
                     </div>
                 </div>
             );
