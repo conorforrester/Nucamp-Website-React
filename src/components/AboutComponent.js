@@ -1,17 +1,11 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animations-component';
 
 
 function About(props) {
-
-    const partners = props.partners.map(partner => {
-        return (
-            <Media tag="li" key={partner.id}>
-                <RenderPartner partner={partner}/>
-            </Media>
-        );
-    });
 
     return (
         <div className="container">
@@ -61,16 +55,7 @@ function About(props) {
                     </Card>
                 </div>
             </div>
-            <div className="row row-content">
-                <div className="col-12">
-                    <h3>Community Partners</h3>
-                </div>
-                <div className="col mt-4">
-                    <Media list>
-                        {partners}
-                    </Media>
-                </div>
-            </div>
+            <PartnerList partners={props.partners} />
         </div>
     );
 }
@@ -90,6 +75,52 @@ function RenderPartner ({partner}) {
         );
     }
     return <div />
+}
+
+function PartnerList(props) {
+
+    const partners = props.partners.partners.map(partner => {
+        return (
+            <Media tag="li" key={partner.id}>
+                <RenderPartner partner={partner}/>
+            </Media>
+        );
+    });
+
+    //check to see if loading object is loading, then display loading component
+    if (props.partners.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    //check to see if loading object is NOT loading, then display error message
+    if (props.partners.errMess) {
+        return (
+            <div className="container">
+                <div className="row"> 
+                    <div className="col">
+                        <h4>{props.partners.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    } 
+    return (
+        <div className="row row-content">
+            <div className="col-12">
+                <h3>Community Partners</h3>
+            </div>
+            <div className="col mt-4">
+                <Media list>
+                    {partners}
+                </Media>
+            </div>
+        </div>
+    );
 }
 
 export default About;
